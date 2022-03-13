@@ -21,7 +21,7 @@ export default (appInfo: EggAppInfo) => {
     consoleLevel: 'DEBUG'
   }
   config.mongoose = {
-    url: 'mongodb://localhost:27017/lego'
+    url: 'mongodb://localhost:27017/fun5'
   }
   // add your special config in here
   const bizConfig = {
@@ -30,9 +30,6 @@ export default (appInfo: EggAppInfo) => {
       allowedMethod: [ 'POST' ]
     },
     baseUrl: 'default.url',
-    // mongoose: {
-    //   url: 'mongodb://localhost:27017/fun5'
-    // }
   };
 
   // the return config will combines to EggAppConfig
