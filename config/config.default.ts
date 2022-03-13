@@ -20,6 +20,9 @@ export default (appInfo: EggAppInfo) => {
   config.logger = {
     consoleLevel: 'DEBUG'
   }
+  config.mongoose = {
+    url: 'mongodb://localhost:27017/lego'
+  }
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
@@ -27,9 +30,9 @@ export default (appInfo: EggAppInfo) => {
       allowedMethod: [ 'POST' ]
     },
     baseUrl: 'default.url',
-    mongoose: {
-      url: 'mongodb://localhost:27017/hello'
-    }
+    // mongoose: {
+    //   url: 'mongodb://localhost:27017/fun5'
+    // }
   };
 
   // the return config will combines to EggAppConfig
