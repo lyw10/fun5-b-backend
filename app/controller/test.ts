@@ -13,7 +13,7 @@ export default class TestController extends Controller {
       id,
       body,
       baseUrl,
-      persons,
+      persons
     }
     ctx.helper.success({ ctx, res: resp })
   }

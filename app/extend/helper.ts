@@ -5,14 +5,11 @@ interface RespType {
   res?: any;
   msg?: string;
 }
-
-
 interface ErrorRespType {
   ctx: Context;
   errorType: keyof (typeof userErrorMessages);
   error?: any;
 }
-
 export default {
   success({ ctx, res, msg }: RespType) {
     ctx.body = {
