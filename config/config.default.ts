@@ -26,6 +26,9 @@ export default (appInfo: EggAppInfo) => {
   config.bcrypt = {
     saltRounds: 10
   }
+  config.session = {
+    encrypt: false
+  }
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
