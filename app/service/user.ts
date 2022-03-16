@@ -11,6 +11,9 @@ export default class UserService extends Service {
     }
     return ctx.model.User.create(userCreatedData)
   }
+  async findByUsername(username: string) {
+    return this.ctx.model.User.findOne({ username })
+  }
   async findById(id: string) {
     return this.ctx.model.User.findById(id)
   }
