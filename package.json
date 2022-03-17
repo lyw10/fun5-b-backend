@@ -22,6 +22,8 @@
     "clean": "ets clean"
   },
   "dependencies": {
+    "@alicloud/dysmsapi20170525": "^2.0.2",
+    "@alicloud/openapi-client": "^0.3.5",
     "axios": "^0.21.4",
     "egg": "^2.6.1",
     "egg-bcrypt": "^1.1.0",

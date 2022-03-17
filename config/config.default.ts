@@ -40,6 +40,11 @@ export default (appInfo: EggAppInfo) => {
       db: 0
     }
   }
+  const aliCloudConfig = {
+    accessKeyId: '',
+    accessKeySecret: '',
+    endpoint: 'dysmsapi.aliyuncs.com'
+  }
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
@@ -47,6 +52,7 @@ export default (appInfo: EggAppInfo) => {
       allowedMethod: [ 'POST' ]
     },
     baseUrl: 'default.url',
+    aliCloudConfig
   };
 
   // the return config will combines to EggAppConfig
