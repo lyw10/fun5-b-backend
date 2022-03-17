@@ -7,7 +7,7 @@ export default (appInfo: EggAppInfo) => {
   config.keys = appInfo.name + '_1631677352881_6029';
 
   // add your egg config in here
-  config.middleware = [ ];
+  config.middleware = [ 'customError' ];
 
   config.security = {
     csrf: {
@@ -29,6 +29,9 @@ export default (appInfo: EggAppInfo) => {
   config.session = {
     encrypt: false
   }
+  config.jwt = {
+    secret: '1234567890'
+  }
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
@@ -36,9 +39,6 @@ export default (appInfo: EggAppInfo) => {
       allowedMethod: [ 'POST' ]
     },
     baseUrl: 'default.url',
-    jwt: {
-      secret: '1234567890'
-    }
   };
 
   // the return config will combines to EggAppConfig

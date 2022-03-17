@@ -2,9 +2,9 @@ import { Application } from 'egg';
 
 export default (app: Application) => {
   const { controller, router } = app;
-  const jwt = app.middleware.jwt({
-    secret: app.config.jwt.secret
-  })
+  // const jwt = app.middleware.jwt({
+  //   secret: app.config.jwt.secret
+  // })
   // const logger = app.middleware.myLogger({
   //   allowedMethod: [ 'GET' ],
   // }, app)
@@ -13,6 +13,6 @@ export default (app: Application) => {
   // router.post('/test/:id', controller.test.index)
   // router.get('/dog', logger, controller.test.getDog)
   router.post('/api/users/create', controller.user.createByEmail)
-  router.get('/api/users/getUserInfo', jwt, controller.user.show)
+  router.get('/api/users/getUserInfo', app.jwt as any, controller.user.show)
   router.post('/api/users/loginByEmail', controller.user.loginByEmail)
 };

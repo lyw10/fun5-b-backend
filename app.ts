@@ -43,6 +43,7 @@ export default class AppBoot implements IBoot {
     // app/model/user.ts => app.model.User
   }
   async didReady() {
+    console.log('middleware', this.app.middleware)
     const ctx = await this.app.createAnonymousContext()
     const res = await ctx.service.test.sayHi('viking')
   }
