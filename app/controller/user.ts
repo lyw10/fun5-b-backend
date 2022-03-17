@@ -70,47 +70,17 @@ export default class UserController extends Controller {
     }
     // ctx.cookies.set('username', user.username, { encrypt: true })
     // ctx.session.username = user.username
-    const token = sign({ username: user.username }, app.config.secret, { expiresIn: 60 * 60 })
+    const token = sign({ username: user.username }, app.config.jwt.secret, { expiresIn: 60 * 60 })
     ctx.helper.success({ ctx, res: { token }, msg: '登录成功' })
-  }
-  getTokenValue() {
-    // JWT Header 格式
-    // Authorization:Bearer tokenXXX
-    const { ctx } = this
-    const { authorization } = ctx.header
-    // 没有这个 header 直接返回false
-    if (!ctx.header || !authorization) {
-      return false
-    }
-    if (typeof authorization === 'string') {
-      const parts = authorization.trim().split(' ')
-      if (parts.length === 2) {
-        const scheme = parts[0]
-        const credentials = parts[1]
-        if (/^Bearer$/i.test(scheme)) {
-          return credentials
-        }
-      } else {
-        return false
-      }
-    } else {
-      return false
-    }
   }
   async show() {
     const { ctx, service, app } = this
     // const { username } = ctx.session
     // /users/:id
     // const username = ctx.cookies.get('username', { encrypt: true })
-    const token = this.getTokenValue()
-    if (!token) {
-      return ctx.helper.error({ ctx, errorType: 'loginValidateFail' })
-    }
-    try {
-      const decoded = verify(token, app.config.secret)
-      ctx.helper.success({ ctx, res: decoded })
-    } catch (e) {
-      return ctx.helper.error({ ctx, errorType: 'loginValidateFail' })
+    const userData = await service.user.findByUsername(ctx.state.user.username)
+    if (userData) {
+      ctx.helper.success({ ctx, res: userData.toJSON() })
     }
   }
 }
