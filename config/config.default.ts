@@ -1,5 +1,7 @@
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
 
+import * as dovenv from 'dotenv'
+dovenv.config()
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
   // override config from framework / plugin
@@ -41,8 +43,8 @@ export default (appInfo: EggAppInfo) => {
     }
   }
   const aliCloudConfig = {
-    accessKeyId: '',
-    accessKeySecret: '',
+    accessKeyId: process.env.ALC_ACCESS_KEY,
+    accessKeySecret: process.env.ALC_SECRET_KEY,
     endpoint: 'dysmsapi.aliyuncs.com'
   }
   // add your special config in here

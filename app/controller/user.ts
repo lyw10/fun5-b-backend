@@ -93,13 +93,19 @@ export default class UserController extends Controller {
     // const veriCode = (Math.floor(((Math.random() * 9000) + 1000))).toString()
     const veriCode = '1234'
     // 发送短信
-    const resp = await this.service.user.sendSMS(phoneNumber, veriCode)
-    console.log('resp.body', resp.body)
-    if (resp.body.code !== 'OK') {
-      return ctx.helper.error({ ctx, errorType: 'sendVeriCodeError' })
+    // const resp = await this.service.user.sendSMS(phoneNumber, veriCode)
+    // if (resp.body.code !== 'OK') {
+    //   return ctx.helper.error({ ctx, errorType: 'sendVeriCodeError' })
+    // }
+    // 判断是否为生产环境
+    if (app.config.env === 'prod') {
+      const resp = await this.service.user.sendSMS(phoneNumber, veriCode)
+      if (resp.body.code !== 'OK') {
+        return ctx.helper.error({ ctx, errorType: 'sendVeriCodeError' })
+      }
     }
     await app.redis.set(`phoneVeriCode-${phoneNumber}`, veriCode, 'ex', 60)
-    ctx.helper.success({ ctx, msg: '验证码发送成功' })
+    ctx.helper.success({ ctx, msg: '验证码发送成功', res: app.config.env === 'local' ? { veriCode } : null })
   }
   async loginByEmail() {
     const { ctx, service, app } = this
