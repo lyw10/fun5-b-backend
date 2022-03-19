@@ -20,8 +20,11 @@ export default (app: Application) => {
   router.post('/api/users/loginByPhoneNumber', controller.user.loginByCellphone)
 
   router.post('/api/works', jwtMiddleware, controller.work.createWork)
+  router.post('/api/works/copy/:id', jwtMiddleware, controller.work.copyWork)
   router.get('/api/works', jwtMiddleware, controller.work.myList)
+  router.get('/api/works/:id', jwtMiddleware, controller.work.myWork)
   router.get('/api/templates', controller.work.templateList)
+  router.get('/api/templates/:id', controller.work.template)
   router.patch('/api/works/:id', jwtMiddleware, controller.work.update)
   router.delete('/api/works/:id', jwtMiddleware, controller.work.delete)
   router.post('/api/works/publish/:id', jwtMiddleware, controller.work.publishWork)
