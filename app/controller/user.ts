@@ -128,7 +128,7 @@ export default class UserController extends Controller {
     }
     // ctx.cookies.set('username', user.username, { encrypt: true })
     // ctx.session.username = user.username
-    const token = app.jwt.sign({ username: user.username }, app.config.jwt.secret, { expiresIn: 60 * 60 })
+    const token = app.jwt.sign({ username: user.username, _id: user._id }, app.config.jwt.secret, { expiresIn: 60 * 60 })
     ctx.helper.success({ ctx, res: { token }, msg: '登录成功' })
   }
   async loginByCellphone() {
