@@ -13,8 +13,7 @@ export default class TestController extends Controller {
       id,
       body,
       baseUrl,
-      persons,
-      mongooseId: ctx.app.mongoose.id
+      persons
     }
     ctx.helper.success({ ctx, res: resp })
   }
