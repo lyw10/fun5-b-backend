@@ -57,6 +57,14 @@ export default (appInfo: EggAppInfo) => {
     accessKeySecret: process.env.ALC_SECRET_KEY,
     endpoint: 'dysmsapi.aliyuncs.com'
   }
+  config.oss = {
+    client: {
+      accessKeyId: process.env.ALC_ACCESS_KEY || '',
+      accessKeySecret: process.env.ALC_SECRET_KEY || '',
+      bucket: 'fun5-backend',
+      endpoint: 'oss-cn-guangzhou.aliyuncs.com'
+    }
+  }
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
