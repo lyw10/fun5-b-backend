@@ -9,18 +9,35 @@ import { parse, join, extname } from 'path'
 import { createSSRApp } from 'vue'
 import { renderToString, renderToNodeStream } from '@vue/server-renderer'
 export default class UtilsController extends Controller {
+  splitIdAndUuid(str = '') {
+    const result = { id: '', uuid: '' }
+    if (!str) return result
+    const firstDashIndex = str.indexOf('-')
+    if (firstDashIndex < 0) return result
+    result.id = str.slice(0, firstDashIndex)
+    result.uuid = str.slice(firstDashIndex + 1)
+    return result
+  }
   async renderH5Page() {
     const { ctx, app } = this
-    const vueApp = createSSRApp({
-      data: () => ({ msg: 'hello world' }),
-      template: '<h1>{{msg}}</h1>'
-    })
-    const appContent = await renderToString(vueApp)
-    ctx.response.type = 'text/html'
-    ctx.body = appContent
+    // const vueApp = createSSRApp({
+    //   data: () => ({ msg: 'hello world' }),
+    //   template: '<h1>{{msg}}</h1>'
+    // })
+    // const appContent = await renderToString(vueApp)
+    // ctx.response.type = 'text/html'
+    // ctx.body = appContent
     // const stream = renderToNodeStream(vueApp)
     // ctx.status = 200
     // await ctx.pipe(stream, ctx.res)
+    const { idAndUuid } = ctx.params
+    const query = this.splitIdAndUuid(idAndUuid)
+    try {
+      const pageData = await this.service.utils.renderToPageData(query)
+      await ctx.render('page.nj', pageData)
+    } catch (e) {
+      ctx.helper.error({ ctx, errorType: 'h5WorkNotExistError' })
+    }
   }
   async uploadToOSS() {
     const { ctx, app } = this

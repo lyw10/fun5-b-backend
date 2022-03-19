@@ -20,7 +20,7 @@ export interface WorkProps {
   latestPublishAt?: Date;
 }
 
-module.exports = (app: Application) => {
+function initWorkModel(app: Application) {
   const mongoose = app.mongoose
   const Schema = mongoose.Schema
   const AutoIncrement = AutoIncrementFactory(mongoose)
@@ -42,3 +42,5 @@ module.exports = (app: Application) => {
   WorkSchema.plugin(AutoIncrement, { inc_field: 'id', id: 'works_id_counter' })
   return mongoose.model<WorkProps>('Work', WorkSchema)
 }
+
+export default initWorkModel
