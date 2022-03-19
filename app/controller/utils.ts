@@ -1,9 +1,30 @@
 import { Controller } from 'egg'
 import * as sharp from 'sharp'
+import * as sendToWormhole from 'stream-wormhole'
 import { nanoid } from 'nanoid'
 import { createWriteStream } from 'fs'
 import { parse, join, extname } from 'path'
 export default class UtilsController extends Controller {
+  async uploadToOSS() {
+    const { ctx, app } = this
+    const stream = await ctx.getFileStream()
+    // fun5-backend /fun5-test/**.ext
+    const savedOSSPath = join('fun5-test', nanoid(6) + extname(stream.filename))
+    try {
+      const result = await ctx.oss.put(savedOSSPath, stream)
+      app.logger.info(result)
+      const { name, url } = result
+      ctx.helper.success({ ctx, res: { name, url } })
+    } catch (e) {
+      await sendToWormhole(stream)
+      ctx.helper.error({ ctx, errorType: 'imageUploadFail' })
+    }
+    // get stream saved to local file
+    // file upload to OSS
+    // delete local file
+
+    // get stream upload to OSS
+  }
   async fileLocalUpload() {
     const { ctx, app } = this
     const { filepath } = ctx.request.files[0]
