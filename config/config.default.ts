@@ -54,7 +54,8 @@ export default (appInfo: EggAppInfo) => {
       allowedMethod: [ 'POST' ]
     },
     baseUrl: 'default.url',
-    aliCloudConfig
+    aliCloudConfig,
+    H5BaseURL: 'http://localhost:7001/api/pages'
   };
 
   // the return config will combines to EggAppConfig
