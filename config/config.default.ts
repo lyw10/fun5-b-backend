@@ -32,7 +32,9 @@ export default (appInfo: EggAppInfo) => {
     encrypt: false
   }
   config.jwt = {
-    secret: '1234567890'
+    enable: true,
+    secret: process.env.JWT_SECRET || '',
+    match: [ '/api/users/getUserInfo', '/api/works', '/api/utils/upload-img' ]
   }
   config.redis = {
     client: {
@@ -42,10 +44,10 @@ export default (appInfo: EggAppInfo) => {
       db: 0
     }
   }
-  // config.multipart = {
-  //   mode: 'file',
-  //   tmpdir: join(appInfo.baseDir, 'uploads')
-  // }
+  config.multipart = {
+    whitelist: [ '.png', '.jpg', '.jpeg', '.gif', '.webp' ],
+    fileSize: '1mb'
+  }
   config.static = {
     dir: [
       { prefix: '/public', dir: join(appInfo.baseDir, 'app/public') },
