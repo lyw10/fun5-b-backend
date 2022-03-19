@@ -20,4 +20,6 @@ export default (app: Application) => {
   router.post('/api/users/loginByPhoneNumber', controller.user.loginByCellphone)
 
   router.post('/api/works', jwtMiddleware, controller.work.createWork)
+  router.get('/api/works', jwtMiddleware, controller.work.myList)
+  router.get('/api/templates', controller.work.templateList)
 };
