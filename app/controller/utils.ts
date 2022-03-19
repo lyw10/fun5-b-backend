@@ -6,7 +6,22 @@ import * as Busboy from 'busboy'
 import { nanoid } from 'nanoid'
 import { createWriteStream } from 'fs'
 import { parse, join, extname } from 'path'
+import { createSSRApp } from 'vue'
+import { renderToString, renderToNodeStream } from '@vue/server-renderer'
 export default class UtilsController extends Controller {
+  async renderH5Page() {
+    const { ctx, app } = this
+    const vueApp = createSSRApp({
+      data: () => ({ msg: 'hello world' }),
+      template: '<h1>{{msg}}</h1>'
+    })
+    const appContent = await renderToString(vueApp)
+    ctx.response.type = 'text/html'
+    ctx.body = appContent
+    // const stream = renderToNodeStream(vueApp)
+    // ctx.status = 200
+    // await ctx.pipe(stream, ctx.res)
+  }
   async uploadToOSS() {
     const { ctx, app } = this
     const stream = await ctx.getFileStream()
