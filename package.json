@@ -19,7 +19,10 @@
     "ci": "npm run lint && npm run cov && npm run tsc",
     "autod": "autod",
     "lint": "eslint . --ext .ts",
-    "clean": "ets clean"
+    "clean": "ets clean",
+    "build:template:dev": "npx webpack --config webpack/webpack.config.js",
+    "build:template:prod": "npx webpack --config webpack/webpack.config.js --env production && npm run upload",
+    "upload": "node webpack/uploadToOSS.js"
   },
   "dependencies": {
     "@alicloud/dysmsapi20170525": "^2.0.2",
@@ -52,15 +55,24 @@
     "@types/node": "^7.0.12",
     "@types/sharp": "^0.29.3",
     "@types/supertest": "^2.0.0",
+    "ajv": "^8.10.0",
     "autod": "^3.0.1",
     "autod-egg": "^1.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "css-loader": "^6.5.1",
     "egg-bin": "^4.11.0",
     "egg-ci": "^1.8.0",
     "egg-mock": "^3.16.0",
     "eslint": "^6.7.2",
     "eslint-config-egg": "^8.0.0",
+    "filemanager-webpack-plugin": "^6.1.7",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.4.5",
     "tslib": "^1.9.0",
-    "typescript": "^3.0.0"
+    "typescript": "^3.0.0",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   },
   "engines": {
     "node": ">=8.9.0"
