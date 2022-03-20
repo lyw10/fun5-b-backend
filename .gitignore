@@ -9,7 +9,7 @@ logs/
 .vscode
 *.swp
 *.lock
-*.js
+# *.js
 !.autod.conf.js
 
 app/**/*.js
@@ -21,3 +21,4 @@ config/**/*.map
 
 .env
 uploads/
+app/public
