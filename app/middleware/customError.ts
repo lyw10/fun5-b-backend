@@ -5,6 +5,7 @@ export default () => {
       await next()
     } catch (e) {
       const error = e as any
+      console.log('err', error.mssage)
       if (error && error.status === 401) {
         return ctx.helper.error({ ctx, errorType: 'loginValidateFail' })
       } else if (ctx.path === '/api/utils/upload-img') {
