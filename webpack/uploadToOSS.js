@@ -3,9 +3,11 @@ const path = require('path')
 const fs = require('fs')
 const dotenv = require('dotenv')
 const OSS = require('ali-oss')
-dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
+// 设置环境变量
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
 const publicPath = path.resolve(__dirname, '../app/public')
+// 新建一个实例
 const client = new OSS({
   accessKeyId: process.env.ALC_ACCESS_KEY || '',
   accessKeySecret: process.env.ALC_SECRET_KEY || '',
@@ -14,6 +16,7 @@ const client = new OSS({
 })
 
 async function run() {
+  // 从文件夹获取对应的文件列表
   const publicFiles = fs.readdirSync(publicPath)
   const files = publicFiles.filter((f) => f !== 'page.nj')
   const res = await Promise.all(
@@ -27,4 +30,5 @@ async function run() {
   )
   console.log('上传成功', res)
 }
+
 run()
