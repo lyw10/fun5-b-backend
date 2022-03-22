@@ -11,7 +11,8 @@ export interface UserProps {
   phoneNumber?: string;
   createdAt: Date;
   updatedAt: Date;
-  type: 'email' | 'cellphone'
+  type: 'email' | 'cellphone';
+  role?: 'admin' | 'normal';
 }
 
 function initUserModel(app: Application) {
@@ -23,7 +24,8 @@ function initUserModel(app: Application) {
     picture: { type: String },
     email: { type: String },
     phoneNumber: { type: String },
-    type: { type: String, default: 'email' }
+    type: { type: String, default: 'email' },
+    role: { type: String, default: 'normal' }
   }, { timestamps: true,
     toJSON: {
       transform(_doc, ret) {

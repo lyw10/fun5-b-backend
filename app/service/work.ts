@@ -75,7 +75,9 @@ export default class WorkService extends Service {
       ...(isTemplate && { isTemplate: true })
     }
     const res = await ctx.model.Work.findOneAndUpdate({ id }, payload, { new: true })
-    const { uuid } = res
-    return `${H5BaseURL}/p/${id}-${uuid}`
+    if (res) {
+      const uuid = res
+      return `${H5BaseURL}/p/${id}-${uuid}`
+    }
   }
 }

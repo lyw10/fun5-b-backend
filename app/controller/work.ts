@@ -1,8 +1,13 @@
 import { Controller } from 'egg'
+import { nanoid } from 'nanoid'
 import inputValidate from '../decorator/inputValidate'
 import checkPermission from '../decorator/checkPermission'
 const workCreateRules = {
   title: 'string',
+}
+const channelCreateRules = {
+  name: 'string',
+  workId: 'number'
 }
 export interface IndexCondition {
   pageIndex?: number; // 第几页
@@ -13,7 +18,59 @@ export interface IndexCondition {
   find?: Record<string, any>; // 查询条件
 }
 export default class WorkController extends Controller {
+  @inputValidate(channelCreateRules, 'channelValidateFail')
+  @checkPermission({ casl: 'Channel', mongoose: 'Work' }, 'workNoPermissonFail', { value: { type: 'body', valueKey: 'workId' } })
+  async createChannel() {
+    const { ctx } = this
+    const { name, workId } = ctx.request.body
+    const newChannel = {
+      name,
+      id: nanoid(6)
+    }
+    const res = await ctx.model.Work.findOneAndUpdate({ id: workId }, { $push: { channels: newChannel } })
+    if (res) {
+      ctx.helper.success({ ctx, res: newChannel })
+    } else {
+      ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
+    }
+  }
+  @checkPermission({ casl: 'Channel', mongoose: 'Work' }, 'workNoPermissonFail')
+  async getWorkChannel() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const certianWork = await ctx.model.Work.findOne({ id })
+    if (certianWork) {
+      const { channels } = certianWork
+      ctx.helper.success({ ctx, res: { count: channels && channels.length || 0, list: channels || [] } })
+    } else {
+      ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
+    }
+  }
+  @checkPermission({ casl: 'Channel', mongoose: 'Work' }, 'workNoPermissonFail', { key: 'channels.id' })
+  async updateChannelName() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const { name } = ctx.request.body
+    const res = await ctx.model.Work.findOneAndUpdate({ 'channels.id': id }, { $set: { 'channels.$.name': name } })
+    if (res) {
+      ctx.helper.success({ ctx, res: { name } })
+    } else {
+      ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
+    }
+  }
+  @checkPermission({ casl: 'Channel', mongoose: 'Work' }, 'workNoPermissonFail', { key: 'channels.id' })
+  async deleteChannel() {
+    const { ctx } = this
+    const { id } = ctx.params
+    const work = await ctx.model.Work.findOneAndUpdate({ 'channels.id': id }, { $pull: { channels: { id } } }, { new: true })
+    if (work) {
+      ctx.helper.success({ ctx, res: work })
+    } else {
+      ctx.helper.error({ ctx, errorType: 'channelOperateFail' })
+    }
+  }
   @inputValidate(workCreateRules, 'workValidateFail')
+  @checkPermission('Work', 'workNoPermissonFail', { action: 'publish' })
   async createWork() {
     const { ctx, service } = this
     const workData = await service.work.createEmptyWork(ctx.request.body)
@@ -40,7 +97,7 @@ export default class WorkController extends Controller {
     const { ctx } = this
     const { id } = ctx.params
     const res = await this.ctx.model.Work.findOne({ id }).lean()
-    if (!res.isPublic || !res.isTemplate) {
+    if (res && !res.isPublic || res && !res.isTemplate) {
       return ctx.helper.error({ ctx, errorType: 'workNoPublicFail' })
     }
     ctx.helper.success({ ctx, res })
