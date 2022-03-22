@@ -22,9 +22,9 @@ export default (appInfo: EggAppInfo) => {
   config.logger = {
     consoleLevel: 'DEBUG'
   }
-  config.mongoose = {
-    url: 'mongodb://localhost:27017/fun5'
-  }
+  // config.mongoose = {
+  //   url: 'mongodb://localhost:27017/fun5'
+  // }
   config.bcrypt = {
     saltRounds: 10
   }
@@ -36,14 +36,14 @@ export default (appInfo: EggAppInfo) => {
     secret: process.env.JWT_SECRET || '',
     match: [ '/api/users/getUserInfo', '/api/works', '/api/utils/upload-img', '/api/channel' ]
   }
-  config.redis = {
-    client: {
-      port: 6379,
-      host: '127.0.0.1',
-      password: '',
-      db: 0
-    }
-  }
+  // config.redis = {
+  //   client: {
+  //     port: 6379,
+  //     host: '127.0.0.1',
+  //     password: '',
+  //     db: 0
+  //   }
+  // }
   config.multipart = {
     whitelist: [ '.png', '.jpg', '.jpeg', '.gif', '.webp' ],
     fileSize: '1mb'
