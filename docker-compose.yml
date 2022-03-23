@@ -9,7 +9,7 @@ services:
       - 27018:27017
   fun5-b-backend:
     depend_on:
-      - fun5-mongo
+      - mongo
     build:
       context: .
       dockerfile: Dockerfile
