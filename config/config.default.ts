@@ -22,9 +22,9 @@ export default (appInfo: EggAppInfo) => {
   config.logger = {
     consoleLevel: 'DEBUG'
   }
-  // config.mongoose = {
-  //   url: 'mongodb://localhost:27018/fun5'
-  // }
+  config.mongoose = {
+    url: 'mongodb://localhost:27018/fun5'
+  }
   config.bcrypt = {
     saltRounds: 10
   }
