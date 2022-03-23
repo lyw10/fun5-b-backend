@@ -23,7 +23,11 @@ export default (appInfo: EggAppInfo) => {
     consoleLevel: 'DEBUG'
   }
   config.mongoose = {
-    url: 'mongodb://localhost:27017/fun5'
+    url: `mongodb://${process.env.HOST}:27018/fun5`,
+    options: {
+      user: process.env.MONGO_USER,
+      pass: process.env.MONGO_PASS
+    }
   }
   config.bcrypt = {
     saltRounds: 10
@@ -38,9 +42,9 @@ export default (appInfo: EggAppInfo) => {
   }
   config.redis = {
     client: {
-      port: 6379,
-      host: '127.0.0.1',
-      password: '',
+      port: 15002,
+      host: process.env.HOST,
+      password: '123456',
       db: 0
     }
   }
