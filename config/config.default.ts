@@ -23,7 +23,11 @@ export default (appInfo: EggAppInfo) => {
     consoleLevel: 'DEBUG'
   }
   config.mongoose = {
-    url: 'mongodb://localhost:27018/fun5'
+    url: `mongodb://${process.env.HOST}:27018/fun5`,
+    options: {
+      user: process.env.MONGO_USER,
+      pass: process.env.MONGO_PASS
+    }
   }
   config.bcrypt = {
     saltRounds: 10
@@ -36,14 +40,14 @@ export default (appInfo: EggAppInfo) => {
     secret: process.env.JWT_SECRET || '',
     match: [ '/api/users/getUserInfo', '/api/works', '/api/utils/upload-img', '/api/channel' ]
   }
-  // config.redis = {
-  //   client: {
-  //     port: 6379,
-  //     host: '127.0.0.1',
-  //     password: '',
-  //     db: 0
-  //   }
-  // }
+  config.redis = {
+    client: {
+      port: 15002,
+      host: process.env.HOST,
+      password: '123456',
+      db: 0
+    }
+  }
   config.multipart = {
     whitelist: [ '.png', '.jpg', '.jpeg', '.gif', '.webp' ],
     fileSize: '1mb'
