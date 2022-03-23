@@ -1,12 +1,12 @@
 version: '3'
-services: 
-  fun5-mongo:
+services:
+  mongo:
     image: mongo
-    container_name: fun5-mongo
+    container_name: mongo-docker
     volumes:
       - 'docker-volumes/mongo/data:/data/db'
     ports:
-      - 27017:27017
+      - 27018:27017
   fun5-b-backend:
     depend_on:
       - fun5-mongo
@@ -17,4 +17,3 @@ services:
     container_name: fun5-b-backend
     ports:
       - 7001:7001
-

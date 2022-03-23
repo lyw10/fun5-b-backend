@@ -23,7 +23,7 @@ export default (appInfo: EggAppInfo) => {
     consoleLevel: 'DEBUG'
   }
   config.mongoose = {
-    url: 'mongodb://localhost:27017/fun5'
+    url: 'mongodb://localhost:27018/fun5'
   }
   config.bcrypt = {
     saltRounds: 10
