@@ -5,4 +5,4 @@ COPY . /usr/src/app/
 RUN npm install --registry=https://registry.npm.taobao.org
 RUN npm run tsc
 EXPOSE 7001
-CMD npx egg-scripts start --title=fun5-b-backends
+CMD npx egg-scripts start --title=fun5-b-backend

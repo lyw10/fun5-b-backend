@@ -4,7 +4,7 @@ services:
     image: mongo
     container_name: fun5-mongo
     volumes:
-      - 'docker-volumes/mongo/data:/data/db
+      - 'docker-volumes/mongo/data:/data/db'
     ports:
       - 27017:27017
   fun5-b-backend:
