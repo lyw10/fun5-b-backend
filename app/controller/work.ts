@@ -70,7 +70,7 @@ export default class WorkController extends Controller {
     }
   }
   @inputValidate(workCreateRules, 'workValidateFail')
-  @checkPermission('Work', 'workNoPermissonFail', { action: 'publish' })
+  @checkPermission('Work', 'workNoPermissonFail')
   async createWork() {
     const { ctx, service } = this
     const workData = await service.work.createEmptyWork(ctx.request.body)
@@ -149,7 +149,7 @@ export default class WorkController extends Controller {
     const res = await this.ctx.model.Work.findOneAndDelete({ id }).select('_id id title').lean()
     ctx.helper.success({ ctx, res })
   }
-  @checkPermission('Work', 'workNoPermissonFail')
+  @checkPermission('Work', 'workNoPermissonFail', { action: 'publish' })
   async publish(isTemplate: boolean) {
     const { ctx } = this
     const url = await this.service.work.publish(ctx.params.id, isTemplate)
