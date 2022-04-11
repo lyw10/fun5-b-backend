@@ -111,6 +111,10 @@ export default class WorkController extends Controller {
       ...(title && { title: { $regex: title, $options: 'i' } }),
       ...(isTemplate && { isTemplate: !!parseInt(isTemplate) })
     }
+    if (findConditon.isTemplate === false) {
+      delete findConditon.isTemplate
+    }
+    console.log('findConditon', findConditon)
     const listCondition: IndexCondition = {
       select: 'id author copiedCount coverImg desc title user isHot createdAt',
       populate: { path: 'user', select: 'username nickName picture' },

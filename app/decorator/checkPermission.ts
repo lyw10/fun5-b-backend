@@ -11,7 +11,6 @@ const caslMethodMapping: Record<string, string> = {
   PATCH: 'update',
   DELETE: 'delete'
 }
-
 interface ModelMapping {
   mongoose: string;
   casl: string;
@@ -26,7 +25,6 @@ interface IOptions {
   value?: { type: 'params' | 'body', valueKey: string }
 }
 const fieldsOptions = { fieldsFrom: rule => rule.fields || [] }
-
 const defaultSearchOptions = {
   key: 'id',
   value: { type: 'params', valueKey: 'id' }
@@ -35,12 +33,12 @@ const defaultSearchOptions = {
 // { 'channels.id' : ctx.params.id }
 // { 'channels.id' : ctx.request.body.workID }
 /**
-*
-* @param modelName model 的名称，可以是普通的字符串，也可以是 casl 和 mongoose 的映射关系
-* @param errorType 返回的错误类型，来自 GlobalErrorTypes
-* @param options 特殊配置选项，可以自定义 action 以及查询条件，详见上面的 IOptions 选项
-* @return function
-*/
+ *
+ * @param modelName model 的名称，可以是普通的字符串，也可以是 casl 和 mongoose 的映射关系
+ * @param errorType 返回的错误类型，来自 GlobalErrorTypes
+ * @param options 特殊配置选项，可以自定义 action 以及查询条件，详见上面的 IOptions 选项
+ * @return function
+ */
 export default function checkPermission(modelName: string | ModelMapping, errorType: GlobalErrorTypes, options?: IOptions) {
   return function(prototype, key: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value
@@ -64,6 +62,7 @@ export default function checkPermission(modelName: string | ModelMapping, errorT
       const mongooseModelName = typeof modelName === 'string' ? modelName : modelName.mongoose
       const caslModelName = typeof modelName === 'string' ? modelName : modelName.casl
       const action = (options && options.action) ? options.action : caslMethodMapping[method]
+      console.log(action)
       if (!ctx.state && !ctx.state.user) {
         return ctx.helper.error({ ctx, errorType })
       }
@@ -80,6 +79,7 @@ export default function checkPermission(modelName: string | ModelMapping, errorT
       } else {
         permission = ability.can(action, caslModelName)
       }
+      // 判断 rule 中是否有对应的受限字段
       if (rule && rule.fields) {
         const fields = permittedFieldsOf(ability, action, caslModelName, fieldsOptions)
         if (fields.length > 0) {
