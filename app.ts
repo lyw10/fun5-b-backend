@@ -35,7 +35,7 @@ export default class AppBoot implements IBoot {
     // this.app.config.coreMiddleware.unshift('myLogger')
   }
   async willReady() {
-    console.log('enable willready', this.app.config.coreMiddleware)
+    // console.log('enable willready', this.app.config.coreMiddleware)
     // const dir = join(this.app.config.baseDir, 'app/model')
     // this.app.loader.loadToApp(dir, 'model', {
     //   caseStyle: 'upper'
@@ -43,7 +43,7 @@ export default class AppBoot implements IBoot {
     // app/model/user.ts => app.model.User
   }
   async didReady() {
-    console.log('middleware', this.app.middleware)
+    // console.log('middleware', this.app.middleware)
     const ctx = await this.app.createAnonymousContext()
     const res = await ctx.service.test.sayHi('viking')
   }
