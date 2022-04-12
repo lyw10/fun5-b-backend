@@ -114,9 +114,8 @@ export default class WorkController extends Controller {
     if (findConditon.isTemplate === false) {
       delete findConditon.isTemplate
     }
-    console.log('findConditon', findConditon)
     const listCondition: IndexCondition = {
-      select: 'id author copiedCount coverImg desc title user isHot createdAt',
+      select: 'id author copiedCount coverImg desc title user isHot createdAt status',
       populate: { path: 'user', select: 'username nickName picture' },
       find: findConditon,
       ...(pageIndex && { pageIndex: parseInt(pageIndex) }),

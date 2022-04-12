@@ -63,6 +63,8 @@ export default class WorkService extends Service {
       .limit(pageSize)
       .sort(customSort)
       .lean()
+    const test = await this.ctx.model.Work.find(find).select(select)
+    console.log('res----------------', test)
     const count = await this.ctx.model.Work.find(find).count()
     return { count, list: res, pageSize, pageIndex }
   }
