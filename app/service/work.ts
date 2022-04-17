@@ -63,8 +63,6 @@ export default class WorkService extends Service {
       .limit(pageSize)
       .sort(customSort)
       .lean()
-    const test = await this.ctx.model.Work.find(find).select(select)
-    console.log('res----------------', test)
     const count = await this.ctx.model.Work.find(find).count()
     return { count, list: res, pageSize, pageIndex }
   }
@@ -78,7 +76,7 @@ export default class WorkService extends Service {
     }
     const res = await ctx.model.Work.findOneAndUpdate({ id }, payload, { new: true })
     if (res) {
-      const uuid = res
+      const uuid = res.uuid
       return `${H5BaseURL}/p/${id}-${uuid}`
     }
   }
