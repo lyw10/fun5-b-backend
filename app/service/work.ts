@@ -74,6 +74,9 @@ export default class WorkService extends Service {
       latestPublishAt: new Date(),
       ...(isTemplate && { isTemplate: true })
     }
+    if (!isTemplate) {
+      payload.isPublic = true
+    }
     const res = await ctx.model.Work.findOneAndUpdate({ id }, payload, { new: true })
     if (res) {
       const uuid = res.uuid
