@@ -78,10 +78,9 @@ export default class WorkService extends Service {
       // 发布
       payload.isPublic = true
     }
-    console.log('----------x', payload)
     const res = await ctx.model.Work.findOneAndUpdate({ id }, payload, { new: true })
     if (res) {
-      const uuid = res
+      const uuid = res.uuid
       return `${H5BaseURL}/p/${id}-${uuid}`
     }
   }
