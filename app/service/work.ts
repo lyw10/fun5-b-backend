@@ -63,8 +63,6 @@ export default class WorkService extends Service {
       .limit(pageSize)
       .sort(customSort)
       .lean()
-    const test = await this.ctx.model.Work.find(find).select(select)
-    console.log('res----------------', test)
     const count = await this.ctx.model.Work.find(find).count()
     return { count, list: res, pageSize, pageIndex }
   }
@@ -76,6 +74,11 @@ export default class WorkService extends Service {
       latestPublishAt: new Date(),
       ...(isTemplate && { isTemplate: true })
     }
+    if (!isTemplate) {
+      // 发布
+      payload.isPublic = true
+    }
+    console.log('----------x', payload)
     const res = await ctx.model.Work.findOneAndUpdate({ id }, payload, { new: true })
     if (res) {
       const uuid = res
