@@ -75,6 +75,7 @@ export default class WorkService extends Service {
       ...(isTemplate && { isTemplate: true })
     }
     if (!isTemplate) {
+      // 发布
       payload.isPublic = true
     }
     const res = await ctx.model.Work.findOneAndUpdate({ id }, payload, { new: true })

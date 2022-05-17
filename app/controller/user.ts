@@ -50,13 +50,9 @@ export default class UserController extends Controller {
     // [0 - 1)
     // [0 - 1) * 9000 = [0 - 9000)
     // [0 - 9000) + 1000 = [1000, 10000)
-    // const veriCode = (Math.floor(((Math.random() * 9000) + 1000))).toString()
-    const veriCode = '1234'
+    const veriCode = (Math.floor(((Math.random() * 9000) + 1000))).toString()
+    // const veriCode = '1234'
     // 发送短信
-    // const resp = await this.service.user.sendSMS(phoneNumber, veriCode)
-    // if (resp.body.code !== 'OK') {
-    //   return ctx.helper.error({ ctx, errorType: 'sendVeriCodeError' })
-    // }
     // 判断是否为生产环境
     if (app.config.env === 'prod') {
       const resp = await this.service.user.sendSMS(phoneNumber, veriCode)
